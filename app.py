@@ -1,6 +1,7 @@
 import os
-import random
 from flask import Flask, redirect
+import random
+import requests
 
 app = Flask(__name__)
 
@@ -19,6 +20,20 @@ def get():
         "https://i.ibb.co/v33jC96/F8871-F27-3-A5-A-4-D55-9-E85-E4-CAC415492-B.jpg",
     ]
     random_rando = random.choice(rando)
+    url = "https://chat.ipnet.co.id/hooks/wygxi9efdtdo3nftay3jryk6gr"
+    payload = "{\n    \"text\": \"%s\"\n}" % random_rando
+    headers = {
+        'Content-Type': "application/json",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Host': "chat.ipnet.co.id",
+        'accept-encoding': "gzip, deflate",
+        'content-length': "90",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
+    response = requests.request("POST", url, data=payload, headers=headers)
+    print(response.text)
     return redirect(random_rando, code=302)
 
 
